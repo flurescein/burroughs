@@ -5,7 +5,6 @@ import { useEffect } from 'react'
 import { $preparedTexts } from '../stores/preparedTexts'
 import { select, deselect, deselectAll, $selected } from '../stores/selected'
 import { fetchTextsFx, deleteSelectedFx } from '../stores/texts'
-import { createConnection } from '../lib/database'
 
 import Item from '../components/Selector/Item'
 import SelectedMenu from '../components/Selector/SelectedMenu'
@@ -15,13 +14,6 @@ export default function Index() {
   const { push } = useRouter()
 
   useEffect(() => {
-    async function goToEditorIfNoTexts() {
-      const db = await createConnection()
-      if ((await db.count('texts')) === 0) {
-        push('/editor')
-      }
-    }
-    goToEditorIfNoTexts()
     fetchTextsFx()
   }, [])
 
@@ -63,12 +55,13 @@ export default function Index() {
               push(`/editor?id=${selected.first()}`)
               deselectAll()
             }}
-            src="edit.svg"
+            src="icons/edit.svg"
           />
           <SelectedMenuItem
-            src="trash.svg"
+            src="icons/trash.svg"
             onClick={() => {
               deleteSelectedFx()
+              deselectAll()
               fetchTextsFx()
             }}
           />

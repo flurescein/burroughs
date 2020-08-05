@@ -1,4 +1,6 @@
 import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useEffect, useCallback } from 'react'
 import { useStore } from 'effector-react'
 
 import {
@@ -11,18 +13,25 @@ import {
 
 import TextInput from '../components/Editor/TextInput'
 import IconedButton from '../components/Editor/IconedButton'
-import { useEffect } from 'react'
+import HeaderButton from '../components/HeaderButton'
+import { putTextFx } from '../stores/texts'
 
 interface EditorProps {
   id?: number
 }
 
-const editor: NextPage<EditorProps> = ({ id }) => {
+const Editor: NextPage<EditorProps> = ({ id }) => {
+  const { push } = useRouter()
+
   useEffect(() => {
     fetchTextFx(id)
   }, [])
 
   const { title, text } = useStore($editedText)
+
+  const saveNew = () => {
+    putTextFx({ title, text, changed: new Date() })
+  }
 
   return (
     <div className="editor">
@@ -33,7 +42,10 @@ const editor: NextPage<EditorProps> = ({ id }) => {
           value={title}
           onChange={({ target: { value } }) => setTitle(value)}
         />
-        <nav>Hey</nav>
+        <nav>
+          <HeaderButton src="icons/save.svg" onClick={saveNew} />
+          <HeaderButton src="icons/archive.svg" onClick={() => push('/')} />
+        </nav>
       </header>
       <TextInput
         placeholder="Текст для нарезки"
@@ -42,7 +54,7 @@ const editor: NextPage<EditorProps> = ({ id }) => {
         autofocus
       />
       <IconedButton
-        src="cut.svg"
+        src="icons/cut.svg"
         title="Cut-up"
         onClick={() => cutupText()}
         style={{ position: 'fixed', bottom: '50px', alignSelf: 'flex-end' }}
@@ -64,6 +76,10 @@ const editor: NextPage<EditorProps> = ({ id }) => {
           width: 100%;
         }
 
+        nav {
+          white-space: nowrap;
+        }
+
         input {
           border: none;
           outline: none;
@@ -81,10 +97,10 @@ const editor: NextPage<EditorProps> = ({ id }) => {
   )
 }
 
-editor.getInitialProps = async ({ query: { id: idQuery } }) => {
+Editor.getInitialProps = async ({ query: { id: idQuery } }) => {
   const id = Number(idQuery) || undefined
 
   return { id }
 }
 
-export default editor
+export default Editor

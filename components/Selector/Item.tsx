@@ -42,8 +42,7 @@ export default function Item({
         }
 
         div:only-child {
-          width: 100%;
-          height: 100%;
+          height: 300%;
         }
       `}</style>
     </div>
