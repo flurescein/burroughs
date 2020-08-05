@@ -1,17 +1,19 @@
 interface SelectedMenuItemProps {
   src: string
   active?: boolean
+  title?: string
   onClick: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
 }
 
 export default function SelectedMenuItem({
   src,
   active = true,
+  title,
   onClick
 }: SelectedMenuItemProps) {
   return (
     <>
-      <img src={src} onClick={active ? onClick : undefined} />
+      <img {...{ src, title, onClick: active ? onClick : undefined }} />
       <style jsx>{`
         img {
           user-select: none;

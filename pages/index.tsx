@@ -51,6 +51,7 @@ export default function Index() {
         >
           <SelectedMenuItem
             active={selected.count() === 1}
+            title="Редактировать"
             onClick={() => {
               push(`/editor?id=${selected.first()}`)
               deselectAll()
@@ -59,6 +60,7 @@ export default function Index() {
           />
           <SelectedMenuItem
             src="icons/trash.svg"
+            title="Удалить"
             onClick={() => {
               deleteSelectedFx()
               deselectAll()
