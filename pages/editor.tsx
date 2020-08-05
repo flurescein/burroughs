@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import { useStore } from 'effector-react'
 
 import {
@@ -11,17 +11,17 @@ import {
   fetchTextFx
 } from '../stores/editedText'
 import { withAlt } from '../lib/keyPressed'
-import { putTextFx } from '../stores/texts'
 
 import TextInput from '../components/Editor/TextInput'
 import IconedButton from '../components/Editor/IconedButton'
 import HeaderButton from '../components/HeaderButton'
+import Messenger from '../components/Messenger'
+import { clearMessages } from '../stores/messages'
+import useSaveAndResave from '../lib/useSaveAndResave'
 
 interface EditorProps {
   id?: number
 }
-
-const titleSliceLenght = 20
 
 const Editor: NextPage<EditorProps> = ({ id }) => {
   const { push } = useRouter()
@@ -37,15 +37,11 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
     return () => removeEventListener('keydown', cutupOnAltR)
   }, [])
 
+  useEffect(() => () => clearMessages(), [])
+
   const { title, text } = useStore($editedText)
 
-  const saveNew = () => {
-    putTextFx({
-      title: title || text.slice(0, titleSliceLenght),
-      text,
-      changed: new Date()
-    })
-  }
+  const { save, resave } = useSaveAndResave(title, text, id)
 
   return (
     <div className="editor">
@@ -57,8 +53,19 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
           onChange={({ target: { value } }) => setTitle(value)}
         />
         <nav>
-          <HeaderButton src="icons/save.svg" onClick={saveNew} />
-          <HeaderButton src="icons/archive.svg" onClick={() => push('/')} />
+          <HeaderButton src="icons/save.svg" title="Save" onClick={save} />
+          {id && (
+            <HeaderButton
+              src="icons/resave.svg"
+              title="Resave"
+              onClick={resave}
+            />
+          )}
+          <HeaderButton
+            src="icons/archive.svg"
+            title="Go to saved"
+            onClick={() => push('/')}
+          />
         </nav>
       </header>
       <TextInput
@@ -72,6 +79,9 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
         title="Alt+R"
         onClick={() => cutupText()}
         style={{ position: 'fixed', bottom: '50px', alignSelf: 'flex-end' }}
+      />
+      <Messenger
+        style={{ alignSelf: 'center', position: 'fixed', bottom: '15px' }}
       />
       <style jsx>{`
         .editor {

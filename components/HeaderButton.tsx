@@ -1,6 +1,7 @@
 interface HeaderButtonProps {
   src: string
   alt?: string
+  title?: string
   height?: number
   onClick: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
 }
@@ -8,12 +9,13 @@ interface HeaderButtonProps {
 export default function HeaderButton({
   src,
   alt,
+  title,
   onClick,
   height = 20
 }: HeaderButtonProps) {
   return (
     <>
-      <img {...{ src, alt, onClick }} />
+      <img {...{ src, alt, title, onClick }} />
       <style jsx>{`
         img {
           height: ${height}px;

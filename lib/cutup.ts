@@ -4,7 +4,7 @@ export default function cutup(
 ) {
   if (shouldDeletePunctuation) {
     inputString = inputString
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+      .replace(/[.,\/#!$%\^&\*;:{}=_`~()]/g, '')
       .replace(/\s{2,}/g, ' ')
   }
 
