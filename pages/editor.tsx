@@ -53,17 +53,17 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
           onChange={({ target: { value } }) => setTitle(value)}
         />
         <nav>
-          <HeaderButton src="icons/save.svg" title="Save" onClick={save} />
+          <HeaderButton src="icons/save.svg" title="Сохранить" onClick={save} />
           {id && (
             <HeaderButton
               src="icons/resave.svg"
-              title="Resave"
+              title="Перезаписать"
               onClick={resave}
             />
           )}
           <HeaderButton
             src="icons/archive.svg"
-            title="Go to saved"
+            title="К списку нарезок"
             onClick={() => push('/')}
           />
         </nav>
