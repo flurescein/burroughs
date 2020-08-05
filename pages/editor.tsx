@@ -21,6 +21,8 @@ interface EditorProps {
   id?: number
 }
 
+const titleSliceLenght = 20
+
 const Editor: NextPage<EditorProps> = ({ id }) => {
   const { push } = useRouter()
 
@@ -38,7 +40,11 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
   const { title, text } = useStore($editedText)
 
   const saveNew = () => {
-    putTextFx({ title, text, changed: new Date() })
+    putTextFx({
+      title: title || text.slice(titleSliceLenght),
+      text,
+      changed: new Date()
+    })
   }
 
   return (
