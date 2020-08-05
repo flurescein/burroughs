@@ -10,11 +10,12 @@ import {
   cutupText,
   fetchTextFx
 } from '../stores/editedText'
+import { withAlt } from '../lib/keyPressed'
+import { putTextFx } from '../stores/texts'
 
 import TextInput from '../components/Editor/TextInput'
 import IconedButton from '../components/Editor/IconedButton'
 import HeaderButton from '../components/HeaderButton'
-import { putTextFx } from '../stores/texts'
 
 interface EditorProps {
   id?: number
@@ -25,6 +26,13 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
 
   useEffect(() => {
     fetchTextFx(id)
+  }, [])
+
+  useEffect(() => {
+    const cutupOnAltR = withAlt(82, () => cutupText())
+
+    document.addEventListener('keydown', cutupOnAltR)
+    return () => removeEventListener('keydown', cutupOnAltR)
   }, [])
 
   const { title, text } = useStore($editedText)
@@ -55,7 +63,7 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
       />
       <IconedButton
         src="icons/cut.svg"
-        title="Cut-up"
+        title="Alt+R"
         onClick={() => cutupText()}
         style={{ position: 'fixed', bottom: '50px', alignSelf: 'flex-end' }}
       />
