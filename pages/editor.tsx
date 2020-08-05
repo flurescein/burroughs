@@ -41,7 +41,7 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
 
   const saveNew = () => {
     putTextFx({
-      title: title || text.slice(titleSliceLenght),
+      title: title || text.slice(0, titleSliceLenght),
       text,
       changed: new Date()
     })
