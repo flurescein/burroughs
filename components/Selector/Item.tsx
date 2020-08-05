@@ -27,12 +27,23 @@ export default function Item({
           justify-content: center;
           align-items: center;
           text-align: center;
+          border-radius: 15px;
+        }
+
+        div:hover {
+          border-color: ${selected ? 'black' : '#dadada'};
+        }
+
+        div:not(:only-child) {
           height: 100px;
           overflow: hidden;
           padding: 20px;
           box-sizing: border-box;
-          border-radius: 15px;
-          max-width: 240;
+        }
+
+        div:only-child {
+          width: 100%;
+          height: 100%;
         }
       `}</style>
     </div>

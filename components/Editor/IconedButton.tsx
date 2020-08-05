@@ -44,6 +44,7 @@ export default function IconedButton({
         img {
           user-select: none;
           height: ${height};
+          vertical-align: middle;
         }
       `}</style>
     </>

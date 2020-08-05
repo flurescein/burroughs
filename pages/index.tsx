@@ -1,19 +1,31 @@
 import { useRouter } from 'next/router'
-import { useList } from 'effector-react'
+import { useList, useStore } from 'effector-react'
 import { useEffect } from 'react'
 
-import { $textsWithSelection } from '../stores/textsWithSelection'
-import { select, deselect, deselectAll } from '../stores/selected'
-import { fetchTextsFx } from '../stores/texts'
+import { $preparedTexts } from '../stores/preparedTexts'
+import { select, deselect, deselectAll, $selected } from '../stores/selected'
+import { fetchTextsFx, deleteSelectedFx } from '../stores/texts'
+import { createConnection } from '../lib/database'
 
 import Item from '../components/Selector/Item'
+import SelectedMenu from '../components/Selector/SelectedMenu'
+import SelectedMenuItem from '../components/Selector/SelectedMenuItem'
 
 export default function Index() {
   const { push } = useRouter()
 
   useEffect(() => {
+    async function goToEditorIfNoTexts() {
+      const db = await createConnection()
+      if ((await db.count('texts')) === 0) {
+        push('/editor')
+      }
+    }
+    goToEditorIfNoTexts()
     fetchTextsFx()
   }, [])
+
+  const selected = useStore($selected)
 
   return (
     <div className="selector">
@@ -21,7 +33,7 @@ export default function Index() {
         <span className="logo">Берроуз</span>
       </header>
       <div className="selection-items">
-        {useList($textsWithSelection, ({ id, title, selected }) => (
+        {useList($preparedTexts, ({ id, title, selected }) => (
           <Item
             {...{ id, selected }}
             title={title.length > 20 ? `${title.slice(0, 20)}...` : title}
@@ -32,19 +44,46 @@ export default function Index() {
             }}
           />
         ))}
-        <Item title="+" dashed onClick={() => push('/editor')} />
+        <Item
+          title="+"
+          dashed
+          onClick={() => {
+            deselectAll()
+            push('/editor')
+          }}
+        />
       </div>
+      {selected.count() > 0 && (
+        <SelectedMenu
+          style={{ position: 'fixed', alignSelf: 'center', bottom: '50px' }}
+        >
+          <SelectedMenuItem
+            active={selected.count() === 1}
+            onClick={() => {
+              push(`/editor?id=${selected.first()}`)
+              deselectAll()
+            }}
+            src="edit.svg"
+          />
+          <SelectedMenuItem
+            src="trash.svg"
+            onClick={() => {
+              deleteSelectedFx()
+              fetchTextsFx()
+            }}
+          />
+        </SelectedMenu>
+      )}
       <style jsx>{`
         .selector {
           display: flex;
           flex-direction: column;
           max-width: 800px;
           margin: auto;
-          padding: 0 20px;
+          padding: 25px 20px;
         }
 
         header {
-          margin-top: 25px;
           margin-bottom: 15px;
         }
 

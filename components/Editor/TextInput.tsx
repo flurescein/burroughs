@@ -31,6 +31,7 @@ export default function TextInput({
           font-size: 20px;
           resize: none;
           height: 100%;
+          padding: 0;
           padding-bottom: 150px;
         }
 
