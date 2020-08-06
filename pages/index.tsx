@@ -18,6 +18,7 @@ import SelectedMenu from '../components/Selector/SelectedMenu'
 import SelectedMenuItem from '../components/Selector/SelectedMenuItem'
 import HeaderButton from '../components/Header/HeaderButton'
 import Description from '../components/Description'
+import Logo from '../components/Logo'
 
 export default function Index() {
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Index() {
   return (
     <MainLayout>
       <Header>
-        <span className="logo">Берроуз</span>
+        <Logo />
         <HeaderButtonsContaiter>
           <HeaderButton
             src="icons/add.svg"
@@ -70,12 +71,6 @@ export default function Index() {
           />
         </SelectedMenu>
       )}
-      <style jsx>{`
-        .logo {
-          font-size: 30px;
-          font-weight: 500;
-        }
-      `}</style>
     </MainLayout>
   )
 }

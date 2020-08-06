@@ -3,11 +3,13 @@ import { useState } from 'react'
 
 interface HiddenMeaningProps {
   trueMeaning: string
+  title?: string
 }
 
 const HiddenMeaning: React.FC<HiddenMeaningProps> = ({
   children,
-  trueMeaning
+  trueMeaning,
+  title = 'Показать правду'
 }) => {
   const [showMeaning, setShowMeaning] = useState(false)
 
@@ -16,6 +18,7 @@ const HiddenMeaning: React.FC<HiddenMeaningProps> = ({
       <span
         className={showMeaning ? 'real-meaning' : 'hidden-meaning'}
         onClick={() => setShowMeaning(!showMeaning)}
+        title={title}
       >
         {showMeaning ? trueMeaning : children}
       </span>
