@@ -1,4 +1,4 @@
-import { createStore, createEffect, combine, createEvent } from 'effector'
+import { createStore, createEffect, combine } from 'effector'
 
 import Text from '../lib/Text'
 import { createConnection } from '../lib/database'
@@ -34,3 +34,9 @@ export const deleteSelectedFx = createEffect({
     $selected.getState().map(id => deleteTextFx(id))
   }
 })
+
+export const $textsCount = combine($texts, texts => texts.length)
+
+export const $isTextsFetced = createStore(false)
+
+$isTextsFetced.on(fetchTextsFx.done, () => true)

@@ -3,6 +3,7 @@ interface ItemProps {
   title?: string
   selected?: boolean
   dashed?: boolean
+  hoverTitle?: string
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   onDoubleClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }

@@ -1,50 +1,51 @@
-import { useRouter } from 'next/router'
-import { useList, useStore } from 'effector-react'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useStore } from 'effector-react'
 
-import { $preparedTexts } from '../stores/preparedTexts'
-import { select, deselect, deselectAll, $selected } from '../stores/selected'
-import { fetchTextsFx, deleteSelectedFx } from '../stores/texts'
+import { deselectAll, $selected } from '../stores/selected'
+import {
+  fetchTextsFx,
+  deleteSelectedFx,
+  $textsCount,
+  $isTextsFetced
+} from '../stores/texts'
 
-import Item from '../components/Selector/Item'
+import MainLayout from '../components/MainLayout'
+import Header from '../components/Header'
+import HeaderButtonsContaiter from '../components/Header/HeaderButtonsContaiter'
+import Texts from '../components/Selector/Texts'
 import SelectedMenu from '../components/Selector/SelectedMenu'
 import SelectedMenuItem from '../components/Selector/SelectedMenuItem'
+import HeaderButton from '../components/Header/HeaderButton'
+import Description from '../components/Description'
 
 export default function Index() {
-  const { push } = useRouter()
-
   useEffect(() => {
     fetchTextsFx()
   }, [])
 
+  const { push } = useRouter()
+
   const selected = useStore($selected)
+  const isTextsFetched = useStore($isTextsFetced)
+  const textsCount = useStore($textsCount)
 
   return (
-    <div className="selector">
-      <header>
+    <MainLayout>
+      <Header>
         <span className="logo">Берроуз</span>
-      </header>
-      <div className="selection-items">
-        {useList($preparedTexts, ({ id, title, selected }) => (
-          <Item
-            {...{ id, selected }}
-            title={title.length > 20 ? `${title.slice(0, 20)}...` : title}
-            onClick={() => (selected ? deselect(id) : select(id))}
-            onDoubleClick={() => {
+        <HeaderButtonsContaiter>
+          <HeaderButton
+            src="icons/add.svg"
+            onClick={() => {
               deselectAll()
-              push(`/editor?id=${id}`)
+              push('/editor')
             }}
+            title="Создать новую нарезку"
           />
-        ))}
-        <Item
-          title="+"
-          dashed
-          onClick={() => {
-            deselectAll()
-            push('/editor')
-          }}
-        />
-      </div>
+        </HeaderButtonsContaiter>
+      </Header>
+      {isTextsFetched ? textsCount > 0 ? <Texts /> : <Description /> : null}
       {selected.count() > 0 && (
         <SelectedMenu
           style={{ position: 'fixed', alignSelf: 'center', bottom: '50px' }}
@@ -70,30 +71,11 @@ export default function Index() {
         </SelectedMenu>
       )}
       <style jsx>{`
-        .selector {
-          display: flex;
-          flex-direction: column;
-          max-width: 800px;
-          margin: auto;
-          padding: 25px 20px;
-        }
-
-        header {
-          margin-bottom: 15px;
-        }
-
         .logo {
           font-size: 30px;
           font-weight: 500;
         }
-
-        .selection-items {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          grid-row-gap: 20px;
-          grid-column-gap: 20px;
-        }
       `}</style>
-    </div>
+    </MainLayout>
   )
 }

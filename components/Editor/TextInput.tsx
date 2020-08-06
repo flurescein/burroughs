@@ -30,7 +30,7 @@ export default function TextInput({
           outline: none;
           font-size: 20px;
           resize: none;
-          height: 100%;
+          flex-grow: 1;
           padding: 0;
           padding-bottom: 150px;
         }

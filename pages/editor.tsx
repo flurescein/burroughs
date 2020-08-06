@@ -11,13 +11,16 @@ import {
   fetchTextFx
 } from '../stores/editedText'
 import { withAlt } from '../lib/keyPressed'
-
-import TextInput from '../components/Editor/TextInput'
-import IconedButton from '../components/Editor/IconedButton'
-import HeaderButton from '../components/HeaderButton'
-import Messenger from '../components/Messenger'
 import { clearMessages } from '../stores/messages'
 import useSaveAndResave from '../lib/useSaveAndResave'
+
+import MainLayout from '../components/MainLayout'
+import Header from '../components/Header'
+import TextInput from '../components/Editor/TextInput'
+import IconedButton from '../components/Editor/IconedButton'
+import HeaderButton from '../components/Header/HeaderButton'
+import Messenger from '../components/Messenger'
+import HeaderButtonsContaiter from '../components/Header/HeaderButtonsContaiter'
 
 interface EditorProps {
   id?: number
@@ -44,15 +47,15 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
   const { save, resave } = useSaveAndResave(title, text, id)
 
   return (
-    <div className="editor">
-      <header>
+    <MainLayout>
+      <Header>
         <input
           type="text"
           placeholder="Берроуз"
           value={title}
           onChange={({ target: { value } }) => setTitle(value)}
         />
-        <nav>
+        <HeaderButtonsContaiter>
           <HeaderButton src="icons/save.svg" title="Сохранить" onClick={save} />
           {id && (
             <HeaderButton
@@ -66,8 +69,8 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
             title="К списку нарезок"
             onClick={() => push('/')}
           />
-        </nav>
-      </header>
+        </HeaderButtonsContaiter>
+      </Header>
       <TextInput
         placeholder="Текст для нарезки"
         value={text}
@@ -84,26 +87,6 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
         style={{ alignSelf: 'center', position: 'fixed', bottom: '15px' }}
       />
       <style jsx>{`
-        .editor {
-          display: flex;
-          flex-direction: column;
-          margin: auto;
-          padding: 0 20px;
-          max-width: 800px;
-          height: 100%;
-        }
-
-        header {
-          margin-top: 25px;
-          margin-bottom: 15px;
-          display: flex;
-          width: 100%;
-        }
-
-        nav {
-          white-space: nowrap;
-        }
-
         input {
           border: none;
           outline: none;
@@ -117,7 +100,7 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
           color: #7e7e7e;
         }
       `}</style>
-    </div>
+    </MainLayout>
   )
 }
 
