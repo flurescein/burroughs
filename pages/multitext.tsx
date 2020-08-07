@@ -52,35 +52,54 @@ const Multitext: NextPage<MultitextProps> = ({ ids }) => {
   const { save } = useSaveAndResave(title, selectedTexts, null)
 
   return (
-    <MainLayout>
-      <Header>
-        <TitleInput
-          value={title}
-          onChange={({ target: { value } }) => setTitle(value)}
-        />
-        <HeaderButtonsContaiter>
-          <HeaderButton src="icons/save.svg" title="Сохранить" onClick={save} />
-          <HeaderButton
-            src="icons/archive.svg"
-            title="К списку нарезок"
-            onClick={() => {
-              push('/')
-              deselectAll()
-            }}
+    <>
+      <MainLayout>
+        <Header>
+          <TitleInput
+            value={title}
+            onChange={({ target: { value } }) => setTitle(value)}
           />
-        </HeaderButtonsContaiter>
-      </Header>
-      <div style={{ fontSize: '20px' }}>{selectedTexts}</div>
-      <IconedButton
-        src="icons/cut.svg"
-        title="Alt+R"
-        onClick={() => cutupSelected()}
-        style={{ position: 'fixed', bottom: '50px', alignSelf: 'flex-end' }}
-      />
-      <Messenger
-        style={{ alignSelf: 'center', position: 'fixed', bottom: '15px' }}
-      />
-    </MainLayout>
+          <HeaderButtonsContaiter>
+            <HeaderButton
+              src="icons/save.svg"
+              title="Сохранить"
+              onClick={save}
+            />
+            <HeaderButton
+              src="icons/archive.svg"
+              title="К списку нарезок"
+              onClick={() => {
+                push('/')
+                deselectAll()
+              }}
+            />
+          </HeaderButtonsContaiter>
+        </Header>
+        <div className="text">
+          {selectedTexts.split('\n').map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </div>
+        <IconedButton
+          src="icons/cut.svg"
+          title="Alt+R"
+          onClick={() => cutupSelected()}
+          style={{ position: 'fixed', bottom: '50px', alignSelf: 'flex-end' }}
+        />
+        <Messenger
+          style={{ alignSelf: 'center', position: 'fixed', bottom: '15px' }}
+        />
+      </MainLayout>
+      <style jsx>{`
+        .text {
+          font-size: 20px;
+        }
+
+        .text p {
+          margin: 5px 0;
+        }
+      `}</style>
+    </>
   )
 }
 
