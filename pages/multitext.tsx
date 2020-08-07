@@ -70,7 +70,7 @@ const Multitext: NextPage<MultitextProps> = ({ ids }) => {
           />
         </HeaderButtonsContaiter>
       </Header>
-      <div className="">{selectedTexts}</div>
+      <div style={{ fontSize: '20px' }}>{selectedTexts}</div>
       <IconedButton
         src="icons/cut.svg"
         title="Alt+R"
