@@ -21,6 +21,7 @@ import IconedButton from '../components/Editor/IconedButton'
 import HeaderButton from '../components/Header/HeaderButton'
 import Messenger from '../components/Messenger'
 import HeaderButtonsContaiter from '../components/Header/HeaderButtonsContaiter'
+import TitleInput from '../components/Editor/TitleInput'
 
 interface EditorProps {
   id?: number
@@ -49,9 +50,7 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
   return (
     <MainLayout>
       <Header>
-        <input
-          type="text"
-          placeholder="Берроуз"
+        <TitleInput
           value={title}
           onChange={({ target: { value } }) => setTitle(value)}
         />
@@ -86,20 +85,6 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
       <Messenger
         style={{ alignSelf: 'center', position: 'fixed', bottom: '15px' }}
       />
-      <style jsx>{`
-        input {
-          border: none;
-          outline: none;
-          font-size: 30px;
-          font-weight: 500;
-          width: 100%;
-          padding: 0;
-        }
-
-        input::placeholder {
-          color: #7e7e7e;
-        }
-      `}</style>
     </MainLayout>
   )
 }

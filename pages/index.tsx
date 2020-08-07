@@ -61,6 +61,14 @@ export default function Index() {
             src="icons/edit.svg"
           />
           <SelectedMenuItem
+            active={selected.count() > 1}
+            src="icons/cut.svg"
+            title="Нарезать несколько"
+            onClick={() => {
+              push(`/multitext?ids=[${selected.toArray()}]`)
+            }}
+          />
+          <SelectedMenuItem
             src="icons/trash.svg"
             title="Удалить"
             onClick={() => {
