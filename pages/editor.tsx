@@ -22,6 +22,7 @@ import HeaderButton from '../components/Header/HeaderButton'
 import Messenger from '../components/Messenger'
 import HeaderButtonsContaiter from '../components/Header/HeaderButtonsContaiter'
 import TitleInput from '../components/Editor/TitleInput'
+import CopyToClipboardButton from '../components/Header/CopyToClipboardButton'
 
 interface EditorProps {
   id?: number
@@ -38,7 +39,7 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
     const cutupOnAltR = withAlt(82, () => cutupText())
 
     document.addEventListener('keydown', cutupOnAltR)
-    return () => removeEventListener('keydown', cutupOnAltR)
+    return () => document.removeEventListener('keydown', cutupOnAltR)
   }, [])
 
   useEffect(() => () => clearMessages(), [])
@@ -63,6 +64,7 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
               onClick={resave}
             />
           )}
+          <CopyToClipboardButton text={text} />
           <HeaderButton
             src="icons/archive.svg"
             title="К списку нарезок"

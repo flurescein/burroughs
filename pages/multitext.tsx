@@ -13,6 +13,7 @@ import MainLayout from '../components/MainLayout'
 import Header from '../components/Header'
 import HeaderButtonsContaiter from '../components/Header/HeaderButtonsContaiter'
 import HeaderButton from '../components/Header/HeaderButton'
+import CopyToClipboardButton from '../components/Header/CopyToClipboardButton'
 import IconedButton from '../components/Editor/IconedButton'
 import useSaveAndResave from '../lib/useSaveAndResave'
 import TitleInput from '../components/Editor/TitleInput'
@@ -65,6 +66,7 @@ const Multitext: NextPage<MultitextProps> = ({ ids }) => {
               title="Сохранить"
               onClick={save}
             />
+            <CopyToClipboardButton text={selectedTexts} />
             <HeaderButton
               src="icons/archive.svg"
               title="К списку нарезок"
