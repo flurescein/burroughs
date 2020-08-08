@@ -80,7 +80,7 @@ const Editor: NextPage<EditorProps> = ({ id }) => {
       />
       <IconedButton
         src="icons/cut.svg"
-        title="Alt+R"
+        title="Нарезать текст (Alt+R)"
         onClick={() => cutupText()}
         style={{ position: 'fixed', bottom: '50px', alignSelf: 'flex-end' }}
       />
