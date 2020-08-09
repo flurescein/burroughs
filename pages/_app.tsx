@@ -1,8 +1,9 @@
 import Head from 'next/head'
+import { useEffect } from 'react'
+
+import preloadImages from '../lib/preloadImages'
 
 import '../styles/globals.css'
-import preloadImages from '../lib/preloadImages'
-import { useEffect } from 'react'
 
 const iconPaths = [
   'add',
@@ -15,6 +16,8 @@ const iconPaths = [
   'trash'
 ].map(iconName => `icons/${iconName}.svg`)
 
+const analyticsID = process.env.analyticsID
+
 export default function MyApp({ Component, pageProps }) {
   useEffect(() => preloadImages(iconPaths), [])
 
@@ -22,21 +25,25 @@ export default function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Берроуз</title>
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=UA-96785093-4"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-          
-            gtag('config', 'UA-96785093-4');
-        `
-          }}
-        />
+        {analyticsID && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${analyticsID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                
+                  gtag('config', '${analyticsID}');
+                `
+              }}
+            />
+          </>
+        )}
       </Head>
       <Component {...pageProps} />
     </>

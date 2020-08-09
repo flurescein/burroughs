@@ -1,47 +1,6 @@
 import Link from 'next/link'
-import { useState } from 'react'
 
-interface HiddenMeaningProps {
-  trueMeaning: string
-  title?: string
-}
-
-const HiddenMeaning: React.FC<HiddenMeaningProps> = ({
-  children,
-  trueMeaning,
-  title = 'Показать правду'
-}) => {
-  const [showMeaning, setShowMeaning] = useState(false)
-
-  return (
-    <>
-      <span
-        className={showMeaning ? 'real-meaning' : 'hidden-meaning'}
-        onClick={() => setShowMeaning(!showMeaning)}
-        title={title}
-      >
-        {showMeaning ? trueMeaning : children}
-      </span>
-      <style jsx>{`
-        span {
-          cursor: pointer;
-        }
-
-        .hidden-meaning {
-          border-bottom: 1px #515a5a dashed;
-          text-decoration: none;
-          color: #626567;
-        }
-
-        .real-meaning {
-          background: black;
-          color: white;
-          padding: 0 4px;
-        }
-      `}</style>
-    </>
-  )
-}
+import HiddenMeaning from './HiddenMeaning'
 
 export default function Description() {
   return (
