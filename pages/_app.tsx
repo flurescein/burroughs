@@ -1,8 +1,23 @@
 import Head from 'next/head'
 
 import '../styles/globals.css'
+import preloadImages from '../lib/preloadImages'
+import { useEffect } from 'react'
+
+const iconPaths = [
+  'add',
+  'archive',
+  'copy',
+  'cut',
+  'edit',
+  'resave',
+  'save',
+  'trash'
+].map(iconName => `icons/${iconName}.svg`)
 
 export default function MyApp({ Component, pageProps }) {
+  useEffect(() => preloadImages(iconPaths), [])
+
   return (
     <>
       <Head>
